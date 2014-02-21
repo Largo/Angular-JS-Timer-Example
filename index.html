@@ -248,13 +248,24 @@ app.directive( 'editInPlace', function() {
       };
       
       // When we leave the input, we're done editing.
-      inputElement.bind( 'blur', function() {
-        
-        scope.$parent.changeTime();
+      var stopEditing = function() {
+        if(scope.editing) {
+          scope.$parent.changeTime();
 
-        scope.editing = false;
-        element.removeClass( 'active' );
+          scope.editing = false;
+          element.removeClass( 'active' );
+        }
+      };
+
+      inputElement.bind('blur', stopEditing);
+
+      inputElement.bind('keypress keydown', function(event) {
+        if (event.which == '13') {
+          stopEditing();
+        }
       });
+
+
     }
   };
 });
