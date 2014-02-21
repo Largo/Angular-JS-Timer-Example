@@ -110,6 +110,12 @@
           <button class="btn" ng-click="clickTime(60*60)">60 Min</button>
           <br>
           <button class="btn" ng-click="stopTimer()">Stop Timer</button>
+          <br><br>
+          <label>
+            <input type="checkbox" ng-model="shouldPlaySound" />
+            Play alarm sound
+          </label>
+          
         </div>
      </div>
   </div>
@@ -126,6 +132,7 @@ function pad(num, size) {
 app.controller('TimerController', function($scope, $timeout) {
   $scope.model = { time : "00:00" };
   $scope.timerError = false;
+  $scope.shouldPlaySound = true;
 
   $scope.clickTime = function(time) {
     $scope.timerError = false;
@@ -171,15 +178,16 @@ app.controller('TimerController', function($scope, $timeout) {
       if ($scope.time <= 0) {
         $scope.stopTimer();
 
-        // thanks to http://www.freesound.org/people/kabit/sounds/81432/
-        // I love the yamanote line
-        var audio = new Audio('81432__kabit__yamanote-line.wav');
-        audio.play();
+        if ($scope.shouldPlaySound) {
+          // thanks to http://www.freesound.org/people/kabit/sounds/81432/
+          // I love the yamanote line
+          var audio = new Audio('81432__kabit__yamanote-line.wav');
+          audio.play();
 
-        $scope.plays = 1;
-
-        // play 3 times total
-        audio.addEventListener('ended', function() {
+          $scope.plays = 1;
+          
+          // play 3 times total
+          audio.addEventListener('ended', function() {
             this.currentTime = 0;
             
             if ($scope.plays <= 2) {
@@ -187,8 +195,9 @@ app.controller('TimerController', function($scope, $timeout) {
             }
 
             $scope.plays += 1;
-        }, false);
-
+          }, false);
+        }
+     
         return;
       }
 
