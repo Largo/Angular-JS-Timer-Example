@@ -133,6 +133,7 @@ app.controller('TimerController', function($scope, $timeout) {
   $scope.model = { time : "00:00" };
   $scope.timerError = false;
   $scope.shouldPlaySound = true;
+  $scope.audio = new Audio('81432__kabit__yamanote-line.wav');
 
   $scope.clickTime = function(time) {
     $scope.timerError = false;
@@ -181,20 +182,20 @@ app.controller('TimerController', function($scope, $timeout) {
         if ($scope.shouldPlaySound) {
           // thanks to http://www.freesound.org/people/kabit/sounds/81432/
           // I love the yamanote line
-          var audio = new Audio('81432__kabit__yamanote-line.wav');
-          audio.play();
+   
+          $scope.audio.play();
 
           $scope.plays = 1;
           
           // play 3 times total
-          audio.addEventListener('ended', function() {
-            this.currentTime = 0;
-            
-            if ($scope.plays <= 2) {
-              this.play();
-            }
+          $scope.audio.addEventListener('ended', function() {
+              this.currentTime = 0;
+              
+              if ($scope.plays <= 2) {
+                this.play();
+              }
 
-            $scope.plays += 1;
+              $scope.plays += 1;
           }, false);
         }
      
@@ -212,6 +213,9 @@ app.controller('TimerController', function($scope, $timeout) {
         $timeout.cancel( $scope.timer); 
         $scope.timer = null;
       }
+
+      $scope.audio.pause();
+      $scope.audio.currentTime = 0;
   };
 });
 
