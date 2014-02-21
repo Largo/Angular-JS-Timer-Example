@@ -171,6 +171,16 @@ app.controller('TimerController', function($scope, $timeout) {
       if ($scope.time <= 0) {
         $scope.stopTimer();
 
+        // thanks to http://www.freesound.org/people/kabit/sounds/81432/
+        // I love the yamanote line
+        var audio = new Audio('81432__kabit__yamanote-line.wav');
+        audio.play();
+        // repeat once
+        $timeout(function() { 
+          var audio = new Audio('81432__kabit__yamanote-line.wav');
+          audio.play(); 
+        }, 8000);
+
         return;
       }
 
