@@ -175,11 +175,19 @@ app.controller('TimerController', function($scope, $timeout) {
         // I love the yamanote line
         var audio = new Audio('81432__kabit__yamanote-line.wav');
         audio.play();
-        // repeat once
-        $timeout(function() { 
-          var audio = new Audio('81432__kabit__yamanote-line.wav');
-          audio.play(); 
-        }, 8000);
+
+        $scope.plays = 1;
+
+        // play 3 times total
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            
+            if ($scope.plays <= 2) {
+              this.play();
+            }
+
+            $scope.plays += 1;
+        }, false);
 
         return;
       }
