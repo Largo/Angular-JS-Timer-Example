@@ -253,7 +253,7 @@ app.directive( 'editInPlace', function() {
       
       // When we leave the input, we're done editing.
       var stopEditing = function() {
-        if(scope.editing) {
+        if(scope.editing && scope.$parent.model.time != '') {
           scope.$parent.changeTime();
 
           scope.editing = false;
